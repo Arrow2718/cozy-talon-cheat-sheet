@@ -1,7 +1,7 @@
 from talon import Module, actions, registry
-import sys, os
+import os
 import pypandoc
-from weasyprint import HTML, CSS
+
 
 
 
@@ -234,7 +234,6 @@ class user_actions:
 
         cheatsheets = os.listdir(chunk_dir_path)
 
-        css = CSS(css_pdf_path)
 
         for sheet in cheatsheets:
 
