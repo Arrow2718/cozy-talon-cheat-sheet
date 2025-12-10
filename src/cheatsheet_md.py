@@ -1,7 +1,6 @@
 from talon import Module, actions, registry
 import os
-
-
+from .md_to_html import HTMLCheatsheetGen
 
 
 
@@ -213,6 +212,15 @@ class user_actions:
            
 
             chunk.close()
+            
+        for (set_name, set) in command_set_dict.items():
+
+            chunk_path = os.path.join(chunk_dir_path, f"{set_name} commands.md")
+            
+            html_gen = HTMLCheatsheetGen(chunk_path)
+
+            html_gen.convert_to_html()
+           
 
 
         # for key, value in list_of_contexts:

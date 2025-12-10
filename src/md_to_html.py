@@ -2,7 +2,7 @@ import os
 
 class Sheet:
     heading :str = ""
-    table : list[list[str]] = []
+    table = {}
     
 
 class HTMLCheatsheetGen():
@@ -10,6 +10,7 @@ class HTMLCheatsheetGen():
         
         self.filepath = filepath
         self.md_lines = None
+        print(self.filepath)
         
         if os.path.exists(self.filepath) is True and self.filepath.endswith(".md"):
             with open(filepath, "r+") as f:
@@ -35,7 +36,7 @@ class HTMLCheatsheetGen():
                                                 </tr>\n \
                                                 </thead>\n",
                               "table_body" : ["<tbody>\n", "</tbody>\n"],
-                              "table_row" : ["<tr>\n, </tr>\n"],
+                              "table_row" : ["<tr>\n", "</tr>\n"],
                               "table_cell_left": ["<td><strong>", "</strong></td>\n"],
                               "table_cell_right" : ["<td><em>", "</em></td>\n" ],
                               "html_header" : "<!DOCTYPE html>\n \
@@ -67,28 +68,37 @@ class HTMLCheatsheetGen():
         
         self.intermediate_representation["meta_title"] = title
         
+        
+        
         for sheet_md in sheets:
-            
+       
             sheet_struct = Sheet()
             
             sheet_split = sheet_md.splitlines()
+            
+         
+           
             
             for line in sheet_split:
                 
                 if "##" in line:
                     
                     sheet_struct.heading = line.replace("## ","")
+                    sheet_struct.table[f"{sheet_struct.heading}"] = []
                     
                 elif "| **" in line:
                     
-                    sheet_struct.table.append([line.split("|")[1], line.split("|")[3]])  
-            
+                    sheet_struct.table[f"{sheet_struct.heading}"].extend( [( " | ".join( line.split('|')[ 1 : -2 ] ), line.split("|")[-2])])  
+            print(sheet_struct.table[f"{sheet_struct.heading}"])
             self.intermediate_representation["sheets"].append(sheet_struct)
             
     def convert_to_html(self):
         
-        name = self.filepath.split(".")[0]
+        name = self.filepath[:-3]
         html_path = ".".join([name, "html"])
+        print("Saving to, ", html_path)
+        
+        self.get_intermediate_rep()
         
         with open(html_path, "w") as html:
             
@@ -106,18 +116,22 @@ class HTMLCheatsheetGen():
             
             for sheet in self.intermediate_representation["sheets"]:
                 
+                
                 h2_tag1 = self.html_map["h2"][0].replace("title", sheet.heading)
                 h2_tag2 = self.html_map["h2"][1]
                 
                 html.write(h2_tag1)
                 html.write(sheet.heading)
+
                 html.write(h2_tag2)
                 
                 html.write(self.html_map["table"][0])
                 html.write(self.html_map["table_header"])
                 html.write(self.html_map["table_body"][0])
+               
+                heading = sheet.heading
                 
-                for idx, row in enumerate(sheet.table):
+                for row in sheet.table[heading]:
                     
                     html.write(self.html_map["table_row"][0])
                     
@@ -136,6 +150,11 @@ class HTMLCheatsheetGen():
                 
             
             html.write(self.html_map["html_body"][1])
+            
+        self.intermediate_representation = {
+                                "meta_title": "", 
+                                "sheets": [] 
+                                }
             
             
             
