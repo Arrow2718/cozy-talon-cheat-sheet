@@ -8,7 +8,7 @@ Talon Voice Commands Cheatsheet
 
 1. Have talon installed and running on your computer following the instructions at [talonvoice.com](https://talonvoice.com/docs/index.html#getting-started)
 2. Have this repo cloned  into the user directory of ~/talon.  This makes these scripts available to talon.
-3. Say "print cheatsheet" or "mark cheatsheet" first produces an html second produces an individual markdown file for every context 
+3. Say "mark cheatsheet" first produces an html second produces an individual markdown file for every context 
 4. Open the talon repl and type
 
 ```
@@ -17,6 +17,3 @@ actions.user.cheatsheet_md()
 ```
 Can easily convert the html to pdf with a browser although I prefer pandoc or weasyprint.
 
-```
-$TALONHOME\venv\3.13\Scripts\pip.bat install -r user\talon-cheat-sheet\requirements.txt
-```
