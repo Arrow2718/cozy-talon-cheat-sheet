@@ -125,7 +125,7 @@ mod = Module()
 
 @mod.action_class
 class user_actions:
-    def cheatsheet_md(): # pyright: ignore[reportSelfClsParameterName]
+    def cheatsheet_md():
         """Print out a sheet of talon commands"""
         # open file
 
@@ -205,11 +205,12 @@ class user_actions:
 
 
             for context, commands in set.items():
-
+                
+                chunk.write("\n\n---------\n\n")
                 pretty_print_context_name(chunk, context)
                 write_context_commands(chunk, commands)
-
-                chunk.write("\n\n")
+ 
+           
 
             chunk.close()
 
@@ -230,4 +231,4 @@ class user_actions:
 
         #         chunk.close()
 
-    
+        
