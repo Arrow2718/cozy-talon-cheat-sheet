@@ -11,6 +11,10 @@ def list_to_markdown_table(file, list_name):
     file.write(f"| command word | {list_name}   |\n")
     file.write("|-----|-----|\n")
     for key, value in command_list:
+        
+        if "|" in key:
+            key.replace("|", "/")
+        
         file.write("| **" + key + "** | *" + value + "* |\n")
 
     file.write("\n\n")
@@ -68,6 +72,11 @@ def write_formatters(file):
     #    file.write("|------|-----|\n")
     for key, value in command_list.items():
         # file.write( "> **"+ key + "** `" + actions.user.formatted_text(f"example of formatting with {key}", value) + "` \n")
+        
+  
+            
+        key =  key.replace("|", "/")
+        
         file.write(
             "| **"
             + key
@@ -82,8 +91,15 @@ def write_context_commands(file, commands):
 
     for key in commands:
         try:
-            rule = commands[key].rule.rule
-            implementation = commands[key].target.code.replace("\n", " then, \t\t")
+            rule: str = commands[key].rule.rule
+            
+            
+            rule = rule.replace("|", r"/") 
+            
+            implementation = commands[key].target.code.replace("\n", "then,")
+            
+            
+            
         except Exception:
             continue
         file.write("| **" + rule + "** | *" + implementation + "* |\n")

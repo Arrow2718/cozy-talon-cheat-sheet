@@ -88,7 +88,7 @@ class HTMLCheatsheetGen():
                     
                 elif "| **" in line:
                     
-                    sheet_struct.table[f"{sheet_struct.heading}"].extend( [( " | ".join( line.split('|')[ 1 : -2 ] ), line.split("|")[-2])])  
+                    sheet_struct.table[f"{sheet_struct.heading}"].extend( [( " | ".join( line.split('|')[ 1 : -2 ] ).replace("*", ""), line.split("|")[-2].replace("*", ""))])  
             print(sheet_struct.table[f"{sheet_struct.heading}"])
             self.intermediate_representation["sheets"].append(sheet_struct)
             
